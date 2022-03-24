@@ -16,7 +16,7 @@ The intention is to share this external tool in the Power BI Community. This fit
 
 Parts of the performance metrics are based on the Vertipaq Analyzer tool created by DAX heroes Marco Russo and Alberto Ferrari (https://github.com/sql-bi/VertiPaq-Analyzer).
 
-Another big shout-out is directed to Stephanie Bruno, who created the Power BI Field Finder (https://github.com/stephbruno/Power-BI-Field-Finder). From that project, I took the beautiful idea of visualizing objects that are used in the Power BI reports with svg-miniature-images.
+Another big shout-out goes to Stephanie Bruno, who created the Power BI Field Finder (https://github.com/stephbruno/Power-BI-Field-Finder). From that project, I took the beautiful idea of visualizing objects that are used in the Power BI reports with svg-miniature-images.
 
 ### Licence
 
