@@ -7,7 +7,8 @@ Use the external tool Power BI Sidekick to retrieve quick insights on the usage 
 3. Documentation --> overviews of the objects that are being used in the report ( tables, columns, measures, bookmarks ...)
 
 Hopefully useful for many alike Power BI developers, just check it out!  
-See https://andreasjongenburger.com/ for an overview of use cases.
+See https://github.com/andreasjongenburger/power-bi-sidekick/wiki/Set-up-and-run-Power-BI-Sidekick for installation instructions.
+See https://andreasjongenburger.com/ for an overview of use cases (coming soon).
 
 ### Standing on the shoulders of giants
 
