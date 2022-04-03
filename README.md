@@ -1,6 +1,7 @@
 # Power BI Sidekick
 Use the external tool Power BI Sidekick to retrieve quick insights on your Power BI reports.
 
+
 ### Three main components
 1. Report pages --> scan through all elements relevant for evaluation from a page perspective.
 2. Mini tools --> ten mini tools addressing different aspects of the report ( DAX dependencies, calculation groups, bookmarks, search expressions ... )
@@ -21,3 +22,9 @@ Another big shout-out goes to Stephanie Bruno, who created the Power BI Field Fi
 ### Licence
 
 Given that Stephanie Bruno's project is shared under the GNU General Public License v3.0 and my usage of code snippets from her tool, Power BI Sidekick will also be shared under the same license.
+
+### Disclaimer
+
+This version is only tested on my own projects. No liability, responsiblity or warranty applies to the creator.
+
+It may be wise to first create a backup of your report, before making adjustments - like removement of columns and/or measures - based on the insights provided by Power BI Sidekick.
