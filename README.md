@@ -9,7 +9,7 @@ Use the external tool Power BI Sidekick to retrieve quick insights on your Power
 
 Hopefully useful for many alike Power BI developers, just check it out!  
 See https://github.com/andreasjongenburger/power-bi-sidekick/wiki/Set-up-and-run-Power-BI-Sidekick for installation instructions.  
-(Coming soon) See https://andreasjongenburger.com/ for an overview of use cases.
+See https://andreasjongenburger.com/introducing-power-bi-sidekick/ for an introduction of the tool with more info on functionality and use cases.
 
 ### Standing on the shoulders of giants
 
