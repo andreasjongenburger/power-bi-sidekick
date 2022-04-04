@@ -27,4 +27,4 @@ Given that Stephanie Bruno's project is shared under the GNU General Public Lice
 
 This version is only tested on my own projects. No liability, responsiblity or warranty applies to the creator.
 
-It may be wise to first create a backup of your report, before making adjustments - like removement of columns and/or measures - based on the insights provided by Power BI Sidekick.
+Always create a backup of your report, before making adjustments - like removement of columns and/or measures - based on the insights provided by Power BI Sidekick.
