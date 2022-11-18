@@ -4,7 +4,7 @@ Use the external tool Power BI Sidekick to retrieve quick insights on your Power
 
 ### Three main components
 1. Report pages --> scan through all elements relevant for evaluation from a page perspective.
-2. Mini tools --> fourteen mini tools addressing different aspects of the report ( DAX dependencies, calculation groups, bookmarks, search expressions ... )
+2. Mini tools --> fifteen mini tools addressing different aspects of the report ( DAX dependencies, calculation groups, bookmarks, search expressions ... )
 3. Documentation --> overview of the objects that are being used in the report ( tables, columns, measures, bookmarks ...)
 
 Hopefully useful for many alike Power BI developers, just check it out!  
