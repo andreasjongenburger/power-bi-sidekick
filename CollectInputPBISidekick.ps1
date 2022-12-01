@@ -2,8 +2,8 @@
 #https://www.howtogeek.com/266621/how-to-make-windows-10-accept-file-paths-over-260-characters/
 
 $pathSearchDir = 
-#   'C:\Users\xxxxx\Development\', 
-   'C:\Users\xxxxx\Projects\'
+#   'C:\DemoFiles\'
+   "$($env:USERPROFILE)\"
 
 $pbiInstances = Get-Process PBIDesktop
 $runningPBIXfiles = $pbiInstances.MainWindowTitle.Replace(' - Power BI Desktop', '.pbix')
@@ -35,7 +35,7 @@ foreach ( $pbixfile in $allPbiFiles )
     }
 }
 
-Write-Host 'These .pbix files are currently opened:'
+Write-Host 'These .pbix files are currently opened:'	
 $listNr = 1
 foreach ($i in $openPBIXfilesWithPath )
 {
@@ -44,11 +44,11 @@ foreach ($i in $openPBIXfilesWithPath )
 }
 [int]$correctFileNr = Read-Host "Please enter the number with the path of this file"
 $PathFile = if ( $openPBIXfilesWithPath.Count -eq 1 ) { $openPBIXfilesWithPath } else { $openPBIXfilesWithPath[$correctFileNr-1] }
-Write-Host "`nThanks! Your picked:`n" $PathFile
+Write-Host "`nThanks, you picked:`n" $PathFile
 
-
-Write-Host "`nFor reviewing file only, return: 1"
-[int]$fileOrFolderChoice = Read-Host "For reviewing all pbix-files in its folder, return: 2"
+Write-Host "`nSimulate a live connection scenario by running Power BI Sidekick from the dataset-pbix and putting the thin reports in the same folder."
+Write-Host "`nFor reviewing this file only, return 1"
+[int]$fileOrFolderChoice = Read-Host "For reviewing all pbix-files in this folder, return 2"
 
 
 $DetailsOutputFile = 'C:\PBISidekickTemp\PBIXConnectionDetails.csv'
@@ -56,11 +56,11 @@ $fileOrFolder = if ( $fileOrFolderChoice -eq 1 ) { 'File' } else { 'Folder' }
 
 $serverName + ',' + $DatabaseName + ',' + $PathFile + ',' + $fileOrFolder  | Out-File $DetailsOutputFile
 
-$returnText = if ( $fileOrFolderChoice -eq 1 ) { "`nThanks. Only this file will be evaluated" } else { "`nThanks. All (model and thin) reports will be included in the evaluation" }
+$returnText = if ( $fileOrFolderChoice -eq 1 ) { "`nThanks, only this file will be evaluated." } else { "`nThanks, all (model and thin) reports will be included in the evaluation." }
 Write-Host "`n$($returnText)`n"
 
 $powerbiPBIT = 'C:\PBISidekickTemp\PowerBI Sidekick.pbit'
 
-Write-Host "`nFor opening a separate Power BI template file, return: 1"
-[int]$openPBITorNot = Read-Host "For refreshing an already open PBI Sidekick file, return: 2"
+Write-Host "`nFor opening a separate Power BI template file, return 1"
+[int]$openPBITorNot = Read-Host "For refreshing an already open PBI Sidekick file, return 2"
 if ( $openPBITorNot -eq 1 ) { Invoke-Item $powerbiPBIT } else {  }
