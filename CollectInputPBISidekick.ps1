@@ -2,11 +2,27 @@
 #https://www.howtogeek.com/266621/how-to-make-windows-10-accept-file-paths-over-260-characters/
 
 $pathSearchDir = 
-	   'C:\DemoFiles\'
+   'C:\DemoFiles\',
+   "$($env:USERPROFILE)\"
 
 $pbiInstances = Get-Process PBIDesktop
-$runningPBIXfiles = $pbiInstances.MainWindowTitle.Replace(' - Power BI Desktop', '.pbix')
+#$runningPBIXfiles = $pbiInstances.MainWindowTitle.Replace(' - Power BI Desktop', '.pbix')
+$runningPBIXfiles = 
+foreach ( $pbiInstance in $pbiInstances )
+{
+    if ($pbiInstance.MainWindowTitle.EndsWith(' - Power BI Desktop') ) 
+    {
+        $pbiInstance.MainWindowTitle.Replace(' - Power BI Desktop', '.pbix')
+    }
+    else 
+    { 
+        $pbiInstance.MainWindowTitle | ForEach-Object {"$_.pbix"}
+    }
+}
+
+
 $allPbiFiles = (Get-ChildItem -Path $pathSearchDir -Recurse -Include '*.pbix').FullName
+#$allPbiFiles = (Get-ChildItem -Recurse -Include '*.pbix').FullName
 
 $openPBIXfilesWithPath = 
 foreach ( $pbixfile in $allPbiFiles )
@@ -43,9 +59,12 @@ Write-Host "1: For reviewing this local file only"
 Write-Host "2: For reviewing all pbix-files in this folder (simulating a live connection scenario)"
 Write-Host "3: For this file being a thin report connected to a Premium (per User) dataset"
 Write-Host "4: For reviewing multiple thin reports online - current file should be the dataset-file (also for Pro)"
+Write-Host "5: For this file being a thin report connected through a SSAS tabular live connection"
+Write-Host "6: For reviewing all pbix-files in this folder being thin reports connected through a SSAS tabular live connection"
+
 [int]$scenarioNumber = Read-Host "Please enter the number with the relevant scenario"
 
-$scenarioText = if ( $scenarioNumber -eq 1 ) { 'Only current file' } elseif ( $scenarioNumber -eq 2 ) { 'Live connection simulation' } elseif ( $scenarioNumber -eq 3 ) { 'Thin report connected to Premium (per user) dataset' } else { 'Local dataset file with thin reports in Power BI Service (Api connection)' }
+$scenarioText = if ( $scenarioNumber -eq 1 ) { 'Only current file' } elseif ( $scenarioNumber -eq 2 ) { 'Live connection simulation' } elseif ( $scenarioNumber -eq 3 ) { 'Thin report connected to Premium (per user) dataset' } elseif ( $scenarioNumber -eq 5 ) { 'Thin report connected to SSAS tabular live connection' } elseif ( $scenarioNumber -eq 6 ) { 'Multiple thin reports connected to SSAS tabular live connection' } else { 'Local dataset file with thin reports in Power BI Service (Api connection)' }
 
 
 $step2result = $step1result + "`n  2) Scenario: " + $scenarioText
@@ -53,7 +72,18 @@ clear
 Write-Host $step2result "`n____"
 
 
-if ( $scenarioNumber -eq 3  )
+if ( $scenarioNumber -in 5, 6  )
+{
+    $serverName = Read-Host "`nPlease enter the SSAS serverName"
+	clear
+	$StepSsasLiveConnResultServer = $step2result + "`n  5) Live SSAS connection server: " + $serverName
+	Write-Host $StepSsasLiveConnResultServer "`n____"
+	$DatabaseName = Read-Host "Please enter SSAS databasename"
+	clear
+	$StepSsasLiveConnResultDatabase = $StepSsasLiveConnResultServer + "`n  4) Dataset name: " + $DatabaseName
+	Write-Host $StepSsasLiveConnResultDatabase "`n____"
+}
+elseif ( $scenarioNumber -eq 3  )
 {
     $workspaceName = Read-Host "`nPlease enter the Premium (per User) workspace name (see right bottom in Power BI Desktop)"
 	$serverName = 'powerbi://api.powerbi.com/v1.0/myorg/' + $workspaceName
@@ -148,5 +178,5 @@ if ( $openPBITorNot -eq 1 ) { Invoke-Item $powerbiPBIT } else {  }
 
 # Write input parameters to file
 $DetailsOutputFile = 'C:\PBISidekickTemp\PBIXConnectionDetails.csv'
-$fileOrFolderOrApi = if ( $scenarioNumber -eq 2 ) { 'Folder' } elseif ( $scenarioNumber -eq 4 ) { 'Api' } else { 'File' }
+$fileOrFolderOrApi = if ( $scenarioNumber -in 2, 6 ) { 'Folder' } elseif ( $scenarioNumber -eq 4 ) { 'Api' } else { 'File' }
 $serverName + ',' + $DatabaseName + ',' + $PathFile + ',' + $fileOrFolderOrApi + ',' + $datasetID  | Out-File $DetailsOutputFile
