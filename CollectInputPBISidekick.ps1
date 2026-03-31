@@ -1,31 +1,27 @@
 #When path is too long:
 #https://www.howtogeek.com/266621/how-to-make-windows-10-accept-file-paths-over-260-characters/
 
-#Add paths of where to find pbix or pbip reports that you want to include in the search step:
-$pathSearchDir = @(
-    'C:\DemoFiles\'
-    "$env:USERPROFILE\Documents\"
-)
+#Add paths open pbi files:
+$openPbiFilesWithPath =
+Get-CimInstance Win32_Process |
+     Where-Object { $_.Name -eq 'PBIDesktop.exe' } |
+     ForEach-Object {
+    #      $filePath = $null
 
-$runningNames = Get-Process PBIDesktop -ErrorAction SilentlyContinue |
-    Where-Object MainWindowTitle |
-    ForEach-Object {
-        $_.MainWindowTitle -replace ' - Power BI Desktop$',''
-    } |
-    Select-Object -Unique
-
-$allPbiFiles = Get-ChildItem -Path $pathSearchDir -Recurse -File -Include '*.pbix','*.pbip' -ErrorAction SilentlyContinue
-
-$openPbiFilesWithPath = $allPbiFiles |
-    Where-Object { $_.BaseName -in $runningNames } |
-    Select-Object -ExpandProperty FullName
+         if ($_.CommandLine -match '(?i)"([^"]+\.(pbix|pbip))"') {
+             $matches[1]
+         }
+         elseif ($_.CommandLine -match '(?i)\s+([^\s]+\.(pbix|pbip))') {
+             $matches[1]
+         }
+     }
 
 
 
 $introtext = "------------------------------------------------------------------------------`nWelcome to Power BI Sidekick!`nSee https://andreasjongenburger.com/power-bi-sidekick/ for more information.`n------------------------------------------------------------------------------"
 Write-Host $introtext
 Write-Host "`nThe exact path and name of the current pbix or pbip file is required."
-Write-Host "To prevent typos, a list of files with filenames currently running is provided here:"
+Write-Host "To prevent typos, a list of currently running files is provided here:"
 #Write-Host "At present - from the provided folders - these Power BI files are detected:"
 $listNr = 1
 foreach ($i in $openPbiFilesWithPath )
